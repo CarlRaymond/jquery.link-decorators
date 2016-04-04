@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         options: {
           jshintrc: 'src/.jshintrc'
         },
-        src: ['src/**/*.js', 'test/**/*.js', 'exp/**/*.js']
+        src: ['src/**/*.js', 'test/**/*.js']
       },
     },
 
@@ -44,37 +44,13 @@ module.exports = function(grunt) {
     },
 
     connect: {
-    	demo: {
-    		options: {
-    			port: 9001,
-    			keepalive: true,
- 	       	open: 'http://localhost:9001/demo/demo.html'
-    		}
-    	},
-
     	test: {
     		options: {
     			port: 9001,
     			keepalive: true,
- 	       	open: 'http://localhost:9001/test/tests.html'
+ 	       	open: 'http://localhost:9001/test/index.html'
     		}
-    	},
-
-      internal: {
-        options: {
-          port: 9001,
-          keepalive: true,
-          open: 'http://localhost:9001/test/internal.html'
-        }
-      },
-
-      external: {
-        options: {
-          port: 9001,
-          keepalive: true,
-          open: 'http://localhost:9001/test/external.html'
-        }
-      }
+    	}
     },
 
     less: {
