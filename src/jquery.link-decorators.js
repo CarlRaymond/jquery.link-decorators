@@ -2,19 +2,6 @@
 // These help with creating consistent markup for links to downloadable files, offsite
 // links, etc., that can show details like file size and file type.
 //
-// Common usages:
-// Make off-site link in the main div open in a new window, and decorate with
-// some popup text (relies on CSS).
-// $("div.main a:external")
-//  .openNewWindow()
-//  .append("<span class='popup'>Opens in new window</span>")});
-//
-// $("div.main a:pathStartsWith(/documents/)")
-//  .addClass("document")
-//  .addClassForExtension()
-//  .openNewWindow()
-//  .getFileInfo(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
-//
 // The plugin is wrapped up in an IIFE. The argument factory is a function invoked
 // in one of three ways (depending on the environment) to register the plugin with jQuery.
 ;(function (factory) {

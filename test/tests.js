@@ -30,7 +30,7 @@ QUnit.test("a:external does not select internal link", function(assert) {
     assert.equal(set.length, 0);
 });
 
-QUnit.test("getFileInfo on existing file calls success", function(assert) {
+QUnit.test("getFileInfo on existing file invokes success", function(assert) {
     var fixture = $("#qunit-fixture");
     fixture.append("<p>Download a <a href='/test/documents/sample.pdf'>sample file</a>.</p>");
 
@@ -44,7 +44,7 @@ QUnit.test("getFileInfo on existing file calls success", function(assert) {
     });
 });
 
-QUnit.test("getFileInfo on missing file calls fail", function(assert) {
+QUnit.test("getFileInfo on missing file invokes fail", function(assert) {
     var fixture = $("#qunit-fixture");
     fixture.append("<p>Download a <a href='/test/documents/missing.pdf'>missing file</a>.</p>");
 
