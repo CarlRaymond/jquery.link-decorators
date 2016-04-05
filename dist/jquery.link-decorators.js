@@ -1,4 +1,4 @@
-/*! jquery.link-decorators - v0.0.1 - 2016-04-04
+/*! jquery.link-decorators - v0.0.1 - 2016-04-05
 * https://github.com/CarlRaymond/jquery.link-decorators#readme
 * Copyright (c) 2016 ; Licensed MIT */
 // A family of jQuery plugins with custom link selectors and useful link modifiers.
