@@ -106,9 +106,9 @@
 	};
 
 	// Wrapper function applied to links to fetch file information by issuing a HEAD request.
-	// The supplied callback is invoked with an object containing the file information,
+	// The supplied success callback is invoked with an object containing the file information,
     // with context (this) equal to the link object.
-	$.fn.getFileInfo = function (callback) {
+	$.fn.getFileInfo = function (success, fail) {
 		this.each(function () {
 			// Assure same origin to prevent whatever happens when it's not.
 			if (this.hostname !== location.hostname)
@@ -128,27 +128,27 @@
 
 			// Issue Ajax HEAD request. This gets all the interesting
             // file attributes, but doesn't transfer the file contents.
-			var request = $.ajax(url, {
-				type: "HEAD",
+			$.ajax(url, {
+				method: "HEAD",
 				timeout: 3000,
-				context: link,
-
-				success: function () {
-					// Parse response headers into convenient properties
-					var size = request.getResponseHeader("Content-Length");
-					var rawType = request.getResponseHeader("Content-Type");
-					linkInfo.size = size;
-					linkInfo.formattedSize = htmlFormattedSize(size, { decimalPlaces: 1 });
-					linkInfo.rawType = rawType;
-					linkInfo.mimeType = rawType.split(';')[0];
-				},
-
-				complete: function (jqxhr, status) {
-					linkInfo.status = status;
-					// Invoke the callback with the link as the context (this), and the fileinfo as the argument.
-					callback.call(link, linkInfo);
-				}
-			});
+				context: link
+            })
+            .done(function (data, textStatus, jqxhr) {
+                var size = jqxhr.getResponseHeader("Content-Length");
+                var rawType = jqxhr.getResponseHeader("Content-Type");
+                linkInfo.size = size;
+                linkInfo.formattedSize = htmlFormattedSize(size, { decimalPlaces: 1 });
+                linkInfo.rawType = rawType;
+                linkInfo.mimeType = rawType.split(';')[0];
+                success.call(link, linkInfo);
+            })
+            .fail(function(jqxhr, textStatus) {
+                if (fail) {
+                    linkInfo.status = jqxhr.status;
+                    linkInfo.textStatus = textStatus;
+                    fail.call(link, linkInfo);
+                }
+            });
 		});
 		return this;
 	};

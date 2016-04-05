@@ -30,7 +30,7 @@ QUnit.test("a:external does not select internal link", function(assert) {
    assert.equal(set.length, 0);
 });
 
-QUnit.test("getFileInfo gets file info", function(assert) {
+QUnit.test("getFileInfo on existing file calls success", function(assert) {
    var fixture = $("#qunit-fixture");
    fixture.append("<p>Download a <a href='/test/documents/sample.pdf'>sample file</a>.</p>");
    
@@ -44,20 +44,23 @@ QUnit.test("getFileInfo gets file info", function(assert) {
    }) ;
 });
 
-QUnit.test("getFileInfo on missing file", function(assert) {
+QUnit.test("getFileInfo on missing file calls fail", function(assert) {
    var fixture = $("#qunit-fixture");
    fixture.append("<p>Download a <a href='/test/documents/missing.pdf'>missing file</a>.</p>");
    
    var done = assert.async();
-   $("a:internal", fixture).getFileInfo(function(info) { // jshint ignore:line
+   
+   var success = function(info) { // jshint ignore:line
        // Should not be invoked
        assert.ok(false, "Non-existent file");
-   });
+   };
    
-   // Wait longer than timeout (3000ms)
-   setTimeout(function() {
+   var fail = function(info) { // jshint ignore:line
+       assert.ok(true, "Fail callback invoked");
        done();
-   }, 4000);
+   };
+   
+   $("a:internal", fixture).getFileInfo(success, fail);
 });
 
 
