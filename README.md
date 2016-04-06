@@ -10,6 +10,22 @@ CSS styling, these details can be displayed in popup windows.
 
 This is especially useful on a CMS system, to standardize markup and improve usability.
 
+## Selectors
+### External link selector
+`jQuery("a:external")`
+
+Selects links to external locations, meaning links with a hostname different than the current location.
+
+### Internal link selector
+`jQuery("a:internal")`
+
+Selects internal links, where the hostname is the same as the current location.
+
+### Email link selector
+`jQuery("a:mailto")`
+
+Selects links to email addresses, where the protocol is `mailto`
+
 ## Common uses:
 Make off-site link in the main div open in a new window, and decorate with
 some popup text (relies on CSS).
