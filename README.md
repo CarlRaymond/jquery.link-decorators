@@ -10,7 +10,7 @@ CSS styling, these details can be displayed in popup windows.
 
 This is especially useful on a CMS system, to standardize markup and improve usability.
 
-## Selectors
+## Link Selectors
 ### External link selector
 `jQuery("a:external")`
 
@@ -26,8 +26,46 @@ Selects internal links, where the hostname is the same as the current location.
 
 Selects links to email addresses, where the protocol is `mailto`
 
+### Path start with selector
+`jQuery("a:pathStartsWith(/download/)")`
+
+Selects links where the path starts with the given argument. Note that there are no quotes around the argument.
+
+### Path ends with selector
+`jQuery("a:pathEndsWith(.pdf)")`
+
+Selects links where the path ends with the given argument. Note that there are no quotes around the argument.
+
+### Path contains selector
+`jQuery("a:pathContains(something)")`
+
+Selects links where the path contains the given argument. Note that there are no quotes around the argument.
+
+## Link Modifiers
+
+### .addClassForExtension
+Adds a class to a link corresponding to the file extension of the target. For example, a link to a `.pdf` file
+will have the class `pdf` added to it.
+
+`jQuery("a:pathStartsWith(/download/).addClassForExtension();`
+
+### .openNewWindow
+Causes links to open in a new window. 
+
+`jQuery("a:pathStartsWith(/download/)").openNewWindow();`
+
+### .getFileInfo
+Fetch the metadata corresponding to a link (file size, MIME type, etc.) and invoke a callback with the information.
+Typically the callback will add some markup that includes the metadata. The context (value of the `this` keyword)
+for the callback is the link element.
+
+```
+jQuery("a:pathStartsWith(/download/)")
+	.getFileInfo(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
+```
+
 ## Common uses:
-Make off-site link in the main div open in a new window, and decorate with
+Make off-site links in the main div open in a new window, and decorate with
 some popup text (relies on CSS).
 ```
 $("div.main a:external")
@@ -35,7 +73,7 @@ $("div.main a:external")
 .append("<span class='popup'>Opens in new window</span>")});
 ```
 
-Give document download links the "document" class, and a class for the file extension,
+Give links to the documents folder `document` class, and a class for the file extension,
 and show the file type and size in a popup.
 ```
 $("div.main a:pathStartsWith(/documents/)")
