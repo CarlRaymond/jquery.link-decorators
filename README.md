@@ -1,8 +1,5 @@
 # jquery.link-decorators
 
-**Pre-Release**
-*This plugin is still under development. Come back later.*
-
 A family of jQuery plugins with custom link selectors and useful link modifiers.
 These help with creating consistent markup for links to downloadable files, offsite
 links, etc., that can show details like file size and file type. With the help of some
@@ -58,6 +55,15 @@ Causes links to open in a new window.
 Fetch the metadata corresponding to a link (file size, MIME type, etc.) and invoke a callback with the information.
 Typically the callback will add some markup that includes the metadata. The context (value of the `this` keyword)
 for the callback is the link element.
+The metadata is obtained by issuing a `HEAD` request, and includes the following properties:
+* `ext`: The file extension
+* `EXT`: The file extension in uppercase
+* `size`: The file size, in bytes
+* `formattedSize': The file size, formatted as an HTML snippet, with units of bytes, KB, MB, or GB.
+* `rawType`: The contents of the `Content-Type` header
+* `mimeType`: The MIME type, obtained from the `Content-Type` header
+
+An optional second callback will be invoked if the request fails. This could be used to add a style to a broken link.
 
 ```
 jQuery("a:pathStartsWith(/download/)")
