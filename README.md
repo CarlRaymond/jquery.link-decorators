@@ -60,7 +60,7 @@ Causes links to open in a new window.
 
 `jQuery("a:pathStartsWith(/download/)").openNewWindow();`
 
-**.getFileInfo**
+**.metadata**
 	
 Fetch the metadata corresponding to a link (file size, MIME type, etc.) and invoke a callback with the information.
 Typically the callback will add some markup that includes the metadata. The context (value of the `this` keyword)
@@ -77,7 +77,7 @@ An optional second callback will be invoked if the request fails. This could be 
 
 ```
 jQuery("a:pathStartsWith(/download/)")
-	.getFileInfo(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
+	.metadata(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
 ```
 
 ## Common uses:
@@ -96,7 +96,7 @@ $("div.main a:pathStartsWith(/documents/)")
 	.addClass("document")
 	.addClassForExtension()
 	.openNewWindow()
-	.getFileInfo(function (info) {
+	.metadata(function (info) {
 		$(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>")
 	});
 ```

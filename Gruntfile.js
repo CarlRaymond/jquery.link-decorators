@@ -3,8 +3,7 @@ module.exports = function(grunt) {
   // Project configuration
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-		    '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %>\n' +
 		    '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
 		    '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
 		    ' Licensed <%= pkg.license %> */\n',
@@ -48,26 +47,29 @@ module.exports = function(grunt) {
     		options: {
     			port: 9001,
     			keepalive: true,
- 	       	open: 'http://localhost:9001/test/index.html'
+ 	         	open: 'http://localhost:9001/test/index.html'
     		}
-    	}
-    },
+    	},
+        
+        demo: {
+            options: {
+                port: 9001,
+                keepalive: true,
+                open: 'http://localhost:9001/demo/demo.html'
+            }  
+        }
+},
 
     less: {
-    	options: {
-    		sourceMap: true,
-    	},
-    	dist: {
+        demo: {
+            options: {
+                sourceMap: true,
+            },
     		files: {
-    			"demo.css": "demo.less"
+    			"demo/demo.css": "demo/demo.less"
     		}
-    	}
+        }
     },
-
-    demo: {
- 
-    }
-
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -76,10 +78,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
   grunt.registerTask('default', ['build',]);
   grunt.registerTask('build', ['jshint', 'clean', 'concat', 'uglify']);
-  grunt.registerTask('demo', ['build', 'connect:demo']);
+  grunt.registerTask('demo', ['build', 'less:demo', 'connect:demo']);
   grunt.registerTask('test', ['build', 'connect:test']);
   grunt.registerTask('internal', ['build', 'connect:internal']);
   grunt.registerTask('external', ['build', 'connect:external']);
