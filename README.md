@@ -8,32 +8,38 @@ CSS styling, these details can be displayed in popup windows.
 This is especially useful on a CMS system, to standardize markup and improve usability.
 
 ## Link Selectors
-** External link selector **
+**External link selector**
+
 `jQuery("a:external")`
 
 Selects links to external locations, meaning links with a hostname different than the current location.
 
-** Internal link selector **
+**Internal link selector**
+
 `jQuery("a:internal")`
 
 Selects internal links, where the hostname is the same as the current location.
 
-** Email link selector **
+**Email link selector**
+
 `jQuery("a:mailto")`
 
-Selects links to email addresses, where the protocol is `mailto`
+Selects links to email addresses, where the protocol is `mailto`.
 
-** Path start with selector **
+**Path start with selector**
+
 `jQuery("a:pathStartsWith(/download/)")`
 
 Selects links where the path starts with the given argument. Note that there are no quotes around the argument.
 
-** Path ends with selector **
+**Path ends with selector**
+
 `jQuery("a:pathEndsWith(.pdf)")`
 
 Selects links where the path ends with the given argument. Note that there are no quotes around the argument.
 
-** Path contains selector **
+**Path contains selector**
+
 `jQuery("a:pathContains(something)")`
 
 Selects links where the path contains the given argument. Note that there are no quotes around the argument.
