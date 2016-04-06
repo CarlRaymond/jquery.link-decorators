@@ -5,7 +5,8 @@ These help with creating consistent markup for links to downloadable files, offs
 links, etc., that can show details like file size and file type. With the help of some
 CSS styling, these details can be displayed in popup windows.
 
-This is especially useful on a CMS system, to standardize markup and improve usability.
+This is especially useful on a CMS system, where there are multiple authors who may not be knowlegeable about
+markup, to enforce standards that improve usability and accessibility.
 
 ## Link Selectors
 **External link selector**
@@ -26,7 +27,7 @@ Selects internal links, where the hostname is the same as the current location.
 
 Selects links to email addresses, where the protocol is `mailto`.
 
-**Path start with selector**
+**Path starts with selector**
 
 `jQuery("a:pathStartsWith(/download/)")`
 
@@ -92,8 +93,10 @@ Give links to the documents folder `document` class, and a class for the file ex
 show the file type and size in a popup, and open in a new window.
 ```
 $("div.main a:pathStartsWith(/documents/)")
-.addClass("document")
-.addClassForExtension()
-.openNewWindow()
-.getFileInfo(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
+	.addClass("document")
+	.addClassForExtension()
+	.openNewWindow()
+	.getFileInfo(function (info) {
+		$(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>")
+	});
 ```
