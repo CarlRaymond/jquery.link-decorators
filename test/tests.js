@@ -30,12 +30,12 @@ QUnit.test("a:external does not select internal link", function(assert) {
     assert.equal(set.length, 0);
 });
 
-QUnit.test("getFileInfo on existing file invokes success", function(assert) {
+QUnit.test("metadata on existing file invokes success", function(assert) {
     var fixture = $("#qunit-fixture");
     fixture.append("<p>Download a <a href='/test/documents/sample.pdf'>sample file</a>.</p>");
 
     var done = assert.async();
-    $("a:internal", fixture).getFileInfo(function(info) {
+    $("a:internal", fixture).metadata(function(info) {
         assert.equal(info.ext, "pdf", "Extension correct");
         assert.equal(info.EXT, "PDF", "Uppercase extension correct");
         assert.ok(info.size > 60000, "Size correct");
@@ -44,7 +44,7 @@ QUnit.test("getFileInfo on existing file invokes success", function(assert) {
     });
 });
 
-QUnit.test("getFileInfo on missing file invokes fail", function(assert) {
+QUnit.test("metadata on missing file invokes fail", function(assert) {
     var fixture = $("#qunit-fixture");
     fixture.append("<p>Download a <a href='/test/documents/missing.pdf'>missing file</a>.</p>");
 
@@ -60,7 +60,7 @@ QUnit.test("getFileInfo on missing file invokes fail", function(assert) {
         done();
     };
 
-    $("a:internal", fixture).getFileInfo(success, fail);
+    $("a:internal", fixture).metadata(success, fail);
 });
 
 QUnit.test("addClassForExtension", function(assert) {
@@ -70,4 +70,18 @@ QUnit.test("addClassForExtension", function(assert) {
    $("a", fixture).addClassForExtension();
    
    assert.ok($("a", fixture).hasClass("pdf"), "Link has pdf class"); 
+});
+
+
+QUnit.test("eachByExtension", function(assert) {
+   var fixture = $("#qunit-fixture");
+   fixture.append("<p>Download <a href='/test/documents/sample.pdf'>a sample file</a>.</p>");
+   //fixture.append("<p>This is a link to a <a href='/test/documents/plain.txt'>plain text file</a>.</p>");
+   
+   var done = assert.async();
+   $("a", fixture).eachByExtension(function (data) {
+     assert.equal(data.ext, 'pdf', "ext correct");
+     assert.equal(data.EXT, 'PDF', "EXT correct");
+     done();  
+   });
 });

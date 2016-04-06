@@ -88,11 +88,33 @@
 		return this;
 	};
 
-	// Wrapper function applied to links to fetch file information by issuing a HEAD request.
+    // Iterate a collection, and for links, determine the extension
+    // of the URL. Then invoke a callback with a data object
+    // containing the extension
+    $.fn.eachByExtension = function(callback) {
+      this.each(function(index) {
+          
+        // Determine the extension
+        var match = this.href.toLowerCase().match(extensionExpression);
+        if (match != null) {
+            var extension = match[1];
+            var data = {
+                index: index,
+                ext: extension,
+                EXT: extension.toUpperCase()
+            };
+            
+            // Invoke callback with data
+            callback.call(this, data);
+        }         
+      });
+    };
+    
+	// Fetch metadata for a link, and invoke a callback which can instrument the link with the data.
 	// The supplied success callback is invoked with an object containing the file information,
 	// with context (this) equal to the link object. If the request fails, the fail callback is
 	// invoked instead.
-	$.fn.getFileInfo = function(success, fail) {
+	$.fn.metadata = function(success, fail) {
 		this.each(function() {
 			// Assure same origin to prevent whatever happens when it's not.
 			if (this.hostname !== location.hostname)
@@ -148,7 +170,7 @@
 		if (isNaN(b)) { return options.unknown; }
 		if (b === 0) { return '0 ' + options.suffixes[0]; }
 		if (b == 1) { return '1 ' + options.suffixes[0]; }
-		if (b < 1024) { return b.toFixed(options.decimalPlaces) + ' ' + options.suffixes[1]; }
+		if (b < 1024) { return b.toFixed(0) + ' ' + options.suffixes[1]; }
 		if (b < 1048576) { return (b / 1024).toFixed(options.decimalPlaces) + ' ' + options.suffixes[2]; }
 		if (b < 1073741824) { return (b / 1048576).toFixed(options.decimalPlaces) + ' ' + options.suffixes[3]; }
 		else { return (b / 1073741824).toFixed(options.decimalPlaces) + ' ' + options.suffixes[4]; }
