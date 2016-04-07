@@ -1,0 +1,29 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="/dist/jquery.link-decorators.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="demo.css"/>
+</head>
+<body>
+<h1>jquery.link-decorators with Font Awesome</h1>
+<p>Link to downloadable files: <a href="/test/documents/plain.txt">plaintext file</a> and <a href="/test/documents/sample.pdf">Portable Document Format file</a>.</p>
+<blockquote>
+<p><em>Move the mouse pointer over the links to see the pop-up notes, and use your browser's DOM inspector to see the classes applied to the links.</em><p>
+<script type="text/javascript">
+var classmap = {
+	pdf: "fa fa-file-pdf-o",
+	txt: "fa fa-file-text"	
+};
+
+$("a:pathStartsWith(/test/documents)")
+    .addClass("document")
+    .addClassForExtension()
+    .metadata(function(data) {
+        $(this).append(" <i class='" + classmap[data.ext] + "'></i><span class='popup'>[" + data.EXT + ": " + data.formattedSize + "]</span>");
+        })
+    ;
+</script>
+
+</body>
+</html>	

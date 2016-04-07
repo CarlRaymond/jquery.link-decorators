@@ -36,6 +36,7 @@ a.document:hover .popup {
   width: auto;
   height: auto;
   border: solid 1px #ccc;
+  margin-left: 1.5em;
   margin-top: 0.25em;
   padding: 0.15em;
   overflow: visible;
@@ -57,18 +58,5 @@ a.document:hover .popup:before {
   border-right: 20px solid #ccc;
   border-bottom: 15px solid transparent;
   margin: 0 0 0 -20px;
-}
-/* No icons */
-a.external,
-a.email {
-  padding-right: 0;
-}
-/* Icons */
-a.document {
-  padding-right: 1.5em;
-}
-a.document:hover .popup,
-a.document:focus .popup {
-  margin-left: 3em;
 }
 /*# sourceMappingURL=demo/demo.css.map */

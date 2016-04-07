@@ -112,7 +112,7 @@
         }         
       });
     };
-
+    
 	// Fetch metadata for a link, and invoke a callback which can instrument the link with the data.
 	// The supplied success callback is invoked with an object containing the file information,
 	// with context (this) equal to the link object. If the request fails, the fail callback is
