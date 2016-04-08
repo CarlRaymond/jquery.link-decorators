@@ -74,12 +74,38 @@
 
 	// Adds a class to links corresponding to their file extensions.
 	// Applying to a link with href="somefile.pdf" will add the class "pdf".
-	$.fn.addClassForExtension = function() {
+    // The class will always be lowercase. Optionally, a map dicitonary object
+	// or function can be supplied to translate from the extension to the
+	// actual class name. 
+	$.fn.addExtensionClass = function(extmap) {
+		
+		var map;
+		
+		// Create the extension-to-class mapping function
+		if (typeof extmap === 'object') {
+			// classmap is a dictionary object
+			map = function(ext) {
+				if (ext in extmap) 
+					return extmap[ext];
+				else
+					return ext;
+			};
+		}
+		else if (typeof extmap === 'function') {
+			// Use supplied function
+			map = extmap;
+		}
+		else {
+			// No argument (or invalid). Identity function
+			map = function(ext) { return ext; };
+		}
+		
+		// Apply the extension-to-class map to each element
 		this.each(function() {
 			var match = this.href.toLowerCase().match(extensionExpression);
 			if (match != null) {
 				var ext = match[1];
-				$(this).addClass(ext);
+				$(this).addClass(map(ext));
 			}
 		});
 		return this;
@@ -94,7 +120,7 @@
     // Iterate a collection, and for links, determine the extension
     // of the URL. Then invoke a callback with a data object
     // containing the extension
-    $.fn.eachByExtension = function(callback) {
+    $.fn.eachExtension = function(callback) {
       this.each(function(index) {
           
         // Determine the extension
@@ -113,11 +139,13 @@
       });
     };
     
-	// Fetch metadata for a link, and invoke a callback which can instrument the link with the data.
+	// Iterates a collection of elements (presumed to be links). For each, fetch metadata for
+    // the link via a HEAD request, and invoke a callback with the data. The callback can
+    // modify link or add markup incorporating the metadata.
 	// The supplied success callback is invoked with an object containing the file information,
 	// with context (this) equal to the link object. If the request fails, the fail callback is
 	// invoked instead.
-	$.fn.metadata = function(success, fail) {
+	$.fn.eachMetadata = function(success, fail) {
 		this.each(function() {
 			// Assure same origin to prevent whatever happens when it's not.
 			if (this.hostname !== location.hostname)

@@ -47,12 +47,12 @@ Selects links where the path contains the given argument. Note that there are no
 
 ## Link Modifiers
 
-**.addClassForExtension**
+**.addExtensionClass**
 
 Adds a class to a link corresponding to the file extension of the target. For example, a link to a `.pdf` file
 will have the class `pdf` added to it.
 
-`jQuery("a:pathStartsWith(/download/).addClassForExtension();`
+`jQuery("a:pathStartsWith(/download/).addExtensionClass();`
 
 **.openNewWindow**
 
@@ -60,7 +60,7 @@ Causes links to open in a new window.
 
 `jQuery("a:pathStartsWith(/download/)").openNewWindow();`
 
-**.metadata**
+**.eachMetadata**
 	
 Fetch the metadata corresponding to a link (file size, MIME type, etc.) and invoke a callback with the information.
 Typically the callback will add some markup that includes the metadata. The context (value of the `this` keyword)
@@ -77,7 +77,7 @@ An optional second callback will be invoked if the request fails. This could be 
 
 ```
 jQuery("a:pathStartsWith(/download/)")
-	.metadata(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
+	.eachMetadata(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
 ```
 
 ## Common uses:
@@ -94,9 +94,9 @@ show the file type and size in a popup, and open in a new window.
 ```
 $("div.main a:pathStartsWith(/documents/)")
 	.addClass("document")
-	.addClassForExtension()
+	.addExtensionClass()
 	.openNewWindow()
-	.metadata(function (info) {
+	.eachMetadata(function (info) {
 		$(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>")
 	});
 ```
