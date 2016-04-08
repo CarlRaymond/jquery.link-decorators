@@ -50,9 +50,29 @@ Selects links where the path contains the given argument. Note that there are no
 **.addExtensionClass**
 
 Adds a class to a link corresponding to the file extension of the target. For example, a link to a `.pdf` file
-will have the class `pdf` added to it.
+will have the class `pdf` added to it. An optional argument can map from the extension to another
+value.
 
-`jQuery("a:pathStartsWith(/download/).addExtensionClass();`
+With no argument supplied, the extension is used as the class name. If an object is supplied,
+it is treated as a dictionary. If it has a property corresponding to the extension, the value
+of the property is used as the class name. If a function is supplied, it will be invoked with
+the extension, and the result will be used as the class.
+
+With no argument: `jQuery("a:pathStartsWith(/download/).addExtensionClass();`
+
+With a dictionary object:
+```
+var map = { pdf: "pdf-file", txt: "text-file" };
+jQuery("a:pathStartsWith(/download/).addExtensionClass(map);
+```
+
+With a function:
+```
+var map = function(ext) {
+	return ext + "-file";
+};
+jQuery("a:pathStartsWith(/download/).addExtensionClass(map);
+```
 
 **.openNewWindow**
 
