@@ -1,0 +1,47 @@
+a.external, a.email, a.document {
+	padding-top:  2px;
+	padding-bottom:  2px;
+	z-index: 48;
+	background-repeat:  no-repeat;
+	background-position:  100% 50%; 
+	.popup {
+		position: absolute;
+		width: 0;
+		height: 0;
+		overflow: hidden;
+		z-index: 50;
+		text-decoration: none;
+		}
+	&:focus, &:hover {
+			z-index: 49; 
+		.popup {
+			float: right;
+			background: #ccc;
+			width: auto;
+			height: auto;
+			border: solid 1px #ccc;
+			margin-left: 1.5em;
+			margin-top: 0.25em;
+			padding: 0.15em;
+			overflow: visible;
+			border-radius: 0.5em;
+			z-index:51;
+			white-space: nowrap; 
+				&:before {
+					content:"";
+					position: absolute;
+					width: 0;
+					height: 0;
+					border-top: 1px solid transparent;
+					border-right: 20px solid #ccc;
+					border-bottom: 15px solid transparent;
+					margin: 0 0 0 -20px;
+				}
+		}
+	}
+}
+
+a.missing {
+	text-decoration: line-through;
+	color: red;
+}

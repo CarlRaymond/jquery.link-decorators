@@ -66,7 +66,8 @@ module.exports = function(grunt) {
                 sourceMap: true,
             },
     		files: {
-    			"demo/demo.css": "demo/demo.less"
+    			"demo/demo.css": "demo/demo.less",
+				"demo/demo-fa.css": "demo/demo-fa.less"
     		}
         }
     },

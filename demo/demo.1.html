@@ -13,7 +13,7 @@
 $("a:pathStartsWith(/test/documents)")
     .addClass("document")
     .addClassForExtension()
-    .metadata(function(data) {
+    .eachMetadata(function(data) {
         $(this).append("<span class='popup'>[" + data.EXT + ": " + data.formattedSize + "]</span>");
         })
     ;

@@ -3,26 +3,45 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <script src="/dist/jquery.link-decorators.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="demo.css"/>
+	<link rel="stylesheet" href="demo-fa.css"/>
 </head>
 <body>
 <h1>jquery.link-decorators with Font Awesome</h1>
 <p>Link to downloadable files: <a href="/test/documents/plain.txt">plaintext file</a> and <a href="/test/documents/sample.pdf">Portable Document Format file</a>.</p>
+<p>Here's a link to a non-existent file: <a href="/test/documents/nonexistent.pdf">no such file</a>.</p>
 <blockquote>
-<p><em>Move the mouse pointer over the links to see the pop-up notes, and use your browser's DOM inspector to see the classes applied to the links.</em><p>
+<p><em>Move the mouse pointer over the links to see the pop-up notes, and use your browser's DOM inspector to see the inserted markup.</em><p>
 <script type="text/javascript">
+
+// map file extensions to Font Awesome icons classes
 var classmap = {
 	pdf: "fa fa-file-pdf-o",
-	txt: "fa fa-file-text"	
+	txt: "fa fa-file-text",
+	doc: "fa fa-file-word-o",
+	docx: "fa fa-file-word-o",
+	xls: "fa fa-file-excel-o",
+	xlsx: "fa fa-file-excel-o",
+	jpg: "fa fa-file-image-o"
 };
 
+var success = function(data) {
+	// Deocorate link with icon for file type, and popup showing size
+	$(this).append(" <i class='" + classmap[data.ext] + "'></i><span class='popup'>[" + data.EXT + ": " + data.formattedSize + "]</span>");
+};
+
+var fail = function() {
+	// Decoreate missing link with warning
+	$(this).append(" <i class='fa fa-exclamation-triangle'></i>")
+	.append("<span class='popup'>This file is missing</span>")
+	.addClass("missing");
+};
+
+// Decorate document links using the above callbacks
 $("a:pathStartsWith(/test/documents)")
-    .addClass("document")
-    .addClassForExtension()
-    .metadata(function(data) {
-        $(this).append(" <i class='" + classmap[data.ext] + "'></i><span class='popup'>[" + data.EXT + ": " + data.formattedSize + "]</span>");
-        })
-    ;
+	.addClass("document")
+	.addExtensionClass()
+	.eachMetadata(success, fail)
+	;
 </script>
 
 </body>
