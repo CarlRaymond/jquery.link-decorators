@@ -7,8 +7,10 @@
 </head>
 <body>
 <h1>jquery.link-decorators with Font Awesome</h1>
-<p>Link to downloadable files: <a href="/test/documents/plain.txt">plaintext file</a> and <a href="/test/documents/sample.pdf">Portable Document Format file</a>.</p>
-<p>Here's a link to a non-existent file: <a href="/test/documents/nonexistent.pdf">no such file</a>.</p>
+<p>Link to downloadable files: <a href="/test/documents/plain.txt">plaintext file</a> and <a href="/test/documents/sample.pdf">Portable Document Format file</a>.
+The Font Awesome icons following the links are not present in the source markup, but are added by the plugin.</p>
+<p>Here's a link to a non-existent file: <a href="/test/documents/nonexistent.pdf">no such file</a>. This file does not exist, and the red icon and strikethrough are
+added by the plugin.</p>
 <blockquote>
 <p><em>Move the mouse pointer over the links to see the pop-up notes, and use your browser's DOM inspector to see the inserted markup.</em><p>
 <script type="text/javascript">
@@ -25,12 +27,12 @@ var classmap = {
 };
 
 var success = function(data) {
-	// Deocorate link with icon for file type, and popup showing size
+	// Decorate link with icon for file type, and popup showing size
 	$(this).append(" <i class='" + classmap[data.ext] + "'></i><span class='popup'>[" + data.EXT + ": " + data.formattedSize + "]</span>");
 };
 
 var fail = function() {
-	// Decoreate missing link with warning
+	// Decorate missing link with warning
 	$(this).append(" <i class='fa fa-exclamation-triangle'></i>")
 	.append("<span class='popup'>This file is missing</span>")
 	.addClass("missing");

@@ -138,7 +138,7 @@
     
 	// Iterates a collection of elements (presumed to be links). For each, fetch metadata for
     // the link via a HEAD request, and invoke a callback with the data. The callback can
-    // modify link or add markup incorporating the metadata.
+    // modify the link or add markup incorporating the metadata.
 	// The supplied success callback is invoked with an object containing the file information,
 	// with context (this) equal to the link object. If the request fails, the fail callback is
 	// invoked instead.
@@ -204,6 +204,7 @@
 		else { return (b / 1073741824).toFixed(options.decimalPlaces) + ' ' + options.suffixes[4]; }
 	};
 
+	// Escape special characters in a regular expression specification
 	var regexEscapeExpr = new RegExp("[-/\\^$*+?.()|[\]{}]", "g");
 	var regexEscape = function(s) {
 		return s.replace(regexEscapeExpr, '\\$&');
