@@ -9,14 +9,35 @@
 <p>Link to downloadable files: <a href="/test/documents/plain.txt">plaintext file</a> and <a href="/test/documents/sample.pdf">Portable Document Format file</a>.</p>
 <blockquote>
 <p><em>Move the mouse pointer over the links to see the pop-up notes, and use your browser's DOM inspector to see the classes applied to the links.</em><p>
+
+<p>The source for the above behavior:</p>
+<pre>
+    <code>
+&lt;script type="text/javascript"&gt;
+    $("a:pathStartsWith(/test/documents)")
+    .addClass("document")
+    .addExtensionClass()
+    .openNewWindow()
+    .decorate(function(data) {
+        $(this).append("&lt;span class='popup'&gt;[" + data.EXT + ": " + data.formattedSize + " - Opens in new window]&lt;/span&gt;");
+        })
+    ;
+&lt;/script&gt;
+    </code>
+</pre>
+</blockquote>
 <script type="text/javascript">
 $("a:pathStartsWith(/test/documents)")
     .addClass("document")
     .addExtensionClass()
-    .eachMetadata(function(data) {
-        $(this).append("<span class='popup'>[" + data.EXT + ": " + data.formattedSize + "]</span>");
+    .openNewWindow()
+    .decorate(function(data) {
+        $(this).append("<span class='popup'>[" + data.EXT + ": " + data.formattedSize + " - Opens in new window]</span>");
         })
     ;
 </script>
+
+
+<p>Also see the <a href="demo-fa.html">Font Awesome demo</a>.</p>
 </body>
 </html>

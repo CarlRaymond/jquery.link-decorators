@@ -117,7 +117,7 @@
     // Iterate a collection, and for links, determine the extension
     // of the URL. Then invoke a callback with a data object
     // containing the extension
-    $.fn.eachExtension = function(callback) {
+    $.fn.extension = function(callback) {
       this.each(function(index) {
           
         // Determine the extension
@@ -142,7 +142,7 @@
 	// The supplied success callback is invoked with an object containing the file information,
 	// with context (this) equal to the link object. If the request fails, the fail callback is
 	// invoked instead.
-	$.fn.eachMetadata = function(success, fail) {
+	$.fn.decorate = function(success, fail) {
 		this.each(function() {
 			// Assure same origin to prevent whatever happens when it's not.
 			if (this.hostname !== location.hostname)

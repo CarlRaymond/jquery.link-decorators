@@ -30,21 +30,21 @@ QUnit.test("a:external does not select internal link", function(assert) {
     assert.equal(set.length, 0);
 });
 
-QUnit.test("eachMetadata on existing file invokes success", function(assert) {
+QUnit.test("decorate on existing file invokes success", function(assert) {
     var fixture = $("#qunit-fixture");
     fixture.append("<p>Download a <a href='/test/documents/sample.pdf'>sample file</a>.</p>");
 
     var done = assert.async();
-    $("a:internal", fixture).eachMetadata(function(info) {
+    $("a:internal", fixture).decorate(function(info) {
         assert.equal(info.ext, "pdf", "Extension correct");
         assert.equal(info.EXT, "PDF", "Uppercase extension correct");
-        assert.ok(info.size > 60000, "Size correct");
+        assert.ok(info.size = 7945, "Size correct");
         assert.equal(info.mimeType, "application/pdf", "MIME type correct");
         done();
     });
 });
 
-QUnit.test("eachMetadata on missing file invokes fail", function(assert) {
+QUnit.test("decorate on missing file invokes fail", function(assert) {
     var fixture = $("#qunit-fixture");
     fixture.append("<p>Download a <a href='/test/documents/missing.pdf'>missing file</a>.</p>");
 
@@ -60,7 +60,7 @@ QUnit.test("eachMetadata on missing file invokes fail", function(assert) {
         done();
     };
 
-    $("a:internal", fixture).eachMetadata(success, fail);
+    $("a:internal", fixture).decorate(success, fail);
 });
 
 QUnit.test("addExtensionClass with no argument", function(assert) {
@@ -92,7 +92,7 @@ QUnit.test("addExtensionClass with map object and missing key", function (assert
 	assert.ok(!$("a", fixture).hasClass("whazzup"), "Link does not have 'whazzup' class");
 });
 
-QUnit.test("addExtensionClass with function", function(assert) {
+QUnit.test("addExtensionClass with map function", function(assert) {
    var fixture = $("#qunit-fixture");
    fixture.append("<p>Download <a href='/test/documents/sample.pdf'>a sample file</a>.</p>");
 
@@ -104,13 +104,13 @@ QUnit.test("addExtensionClass with function", function(assert) {
 });
 
 
-QUnit.test("eachExtension", function(assert) {
+QUnit.test("extension", function(assert) {
    var fixture = $("#qunit-fixture");
    fixture.append("<p>Download <a href='/test/documents/sample.pdf'>a sample file</a>.</p>");
    //fixture.append("<p>This is a link to a <a href='/test/documents/plain.txt'>plain text file</a>.</p>");
    
    var done = assert.async();
-   $("a", fixture).eachExtension(function (data) {
+   $("a", fixture).extension(function (data) {
      assert.equal(data.ext, 'pdf', "ext correct");
      assert.equal(data.EXT, 'PDF', "EXT correct");
      done();  

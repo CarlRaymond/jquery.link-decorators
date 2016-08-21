@@ -6,15 +6,52 @@
 	<link rel="stylesheet" href="demo-fa.css"/>
 </head>
 <body>
-<h1>jquery.link-decorators with Font Awesome</h1>
+<h1>jquery.link-decorators with Font Awesome Icons</h1>
 <p>Link to downloadable files: <a href="/test/documents/plain.txt">plaintext file</a> and <a href="/test/documents/sample.pdf">Portable Document Format file</a>.
 The Font Awesome icons following the links are not present in the source markup, but are added by the plugin.</p>
 <p>Here's a link to a non-existent file: <a href="/test/documents/nonexistent.pdf">no such file</a>. This file does not exist, and the red icon and strikethrough are
 added by the plugin.</p>
 <blockquote>
 <p><em>Move the mouse pointer over the links to see the pop-up notes, and use your browser's DOM inspector to see the inserted markup.</em><p>
-<script type="text/javascript">
+<p>The source for the above behavior:</p>
+<pre>
+	<code>
+&lt;script type="text/javascript"&gt;
+// map file extensions to Font Awesome icons classes
+var classmap = {
+	pdf: "fa fa-file-pdf-o",
+	txt: "fa fa-file-text",
+	doc: "fa fa-file-word-o",
+	docx: "fa fa-file-word-o",
+	xls: "fa fa-file-excel-o",
+	xlsx: "fa fa-file-excel-o",
+	jpg: "fa fa-file-image-o"
+};
 
+var success = function(data) {
+	// Decorate link with icon for file type, and popup showing size
+	$(this).append(" &lt;i class='" + classmap[data.ext] + "'&gt;&lt;/i&gt;&lt;span class='popup'&gt;[" + data.EXT + ": " + data.formattedSize + "]&lt;/span&gt;");
+};
+
+var fail = function() {
+	// Decorate missing link with warning
+	$(this).append(" &lt;i class='fa fa-exclamation-triangle'&gt;&lt;/i&gt;")
+	.append("&lt;span class='popup'&gt;This file is missing&lt;/span&gt;")
+	.addClass("missing");
+};
+
+// Decorate document links using the above callbacks
+$("a:pathStartsWith(/test/documents)")
+	.addClass("document")
+	.addExtensionClass()
+	.decorate(success, fail)
+	;
+&lt;/script&gt;
+	</code>
+</pre>
+
+
+<script type="text/javascript">
 // map file extensions to Font Awesome icons classes
 var classmap = {
 	pdf: "fa fa-file-pdf-o",
@@ -42,7 +79,7 @@ var fail = function() {
 $("a:pathStartsWith(/test/documents)")
 	.addClass("document")
 	.addExtensionClass()
-	.eachMetadata(success, fail)
+	.decorate(success, fail)
 	;
 </script>
 
