@@ -30,6 +30,14 @@ QUnit.test("a:external does not select internal link", function(assert) {
     assert.equal(set.length, 0);
 });
 
+QUnit.test("a:external does not select invalid link", function(assert) {
+    var fixture = $("#qunit-fixture");
+    fixture.append("<p>This is <a>an invalid link</a>.</p>");
+
+    var set = $("a:external", fixture);
+    assert.equal(set.length, 0);
+});
+
 QUnit.test("decorate on existing file invokes success", function(assert) {
     var fixture = $("#qunit-fixture");
     fixture.append("<p>Download a <a href='/test/documents/sample.pdf'>sample file</a>.</p>");
