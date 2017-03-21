@@ -1,6 +1,6 @@
 /*! jquery.link-decorators - v0.0.1
 * https://github.com/CarlRaymond/jquery.link-decorators#readme
-* Copyright (c) 2016 ; Licensed MIT */
+* Copyright (c) 2017 ; Licensed MIT */
 // A family of jQuery plugins with custom link selectors and useful link modifiers.
 // These help with creating consistent markup for links to downloadable files, offsite
 // links, etc., that can show details like file size and file type.
@@ -27,7 +27,7 @@
 	// Selector for off-site links
 	// Usage: $("div.main a:external")...
 	$.expr[':'].external = function(obj) {
-		return (obj.hostname != location.hostname) && (obj.protocol == 'http:' || obj.protocol == 'https:');
+		return (obj.href !== "" && obj.hostname != location.hostname) && (obj.protocol == 'http:' || obj.protocol == 'https:');
 	};
 
 	// Selector for on-site links

@@ -24,7 +24,7 @@
 	// Selector for off-site links
 	// Usage: $("div.main a:external")...
 	$.expr[':'].external = function(obj) {
-		return (obj.hostname != location.hostname) && (obj.protocol == 'http:' || obj.protocol == 'https:');
+		return (obj.href !== "" && obj.hostname != location.hostname) && (obj.protocol == 'http:' || obj.protocol == 'https:');
 	};
 
 	// Selector for on-site links
