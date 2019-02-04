@@ -1,6 +1,6 @@
 /*! jquery.link-decorators - v0.0.1
 * https://github.com/CarlRaymond/jquery.link-decorators#readme
-* Copyright (c) 2017 ; Licensed MIT */
+* Copyright (c) 2019 ; Licensed MIT */
 // A family of jQuery plugins with custom link selectors and useful link modifiers.
 // These help with creating consistent markup for links to downloadable files, offsite
 // links, etc., that can show details like file size and file type.
@@ -113,9 +113,46 @@
 
 	// Make link open in new window
 	$.fn.openNewWindow = function() {
-		this.attr('target', '_blank');
+		$(this).attr('target', '_blank');
 		return this;
 	};
+
+	// Add rel="noopener" attribute (prevents "Reverse tabnabbing")
+	// to each link
+	$.fn.noOpener = function() {
+		this.each(function() {
+			var rel = $(this).attr('rel');
+			if (rel === undefined) {
+				$(this).attr('rel', 'noopener');
+				return;
+			}
+
+			var vals = $(this).attr('rel').split(' ');
+			if ($.inArray('noopener', vals) == -1) {
+				vals.push('noopener');
+				$(this).attr('rel', vals.join(' '));
+			}
+		});
+	};
+
+	// Add rel="nofollow" attribute
+	$.fn.noFollow = function() {
+		this.each(function() {
+			var rel = $(this).attr('rel');
+			if (rel === undefined) {
+				$(this).attr('rel', 'nofollow');
+				return;
+			}
+
+			// Existing attribute found. Add value if not already present.
+			var vals = $(this).attr('rel').split(' ');
+			if ($.inArray('nofollow', vals) == -1) {
+				vals.push('nofollow');
+				$(this).attr('rel', vals.join(' '));
+			}
+		});
+	};
+	
 
     // Iterate a collection, and for links, determine the extension
     // of the URL. Then invoke a callback with a data object

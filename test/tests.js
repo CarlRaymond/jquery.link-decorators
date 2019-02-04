@@ -124,3 +124,60 @@ QUnit.test("extension", function(assert) {
      done();  
    });
 });
+
+
+$.fn.hasAttr = function(name) {
+    return $(this).attr(name) !== undefined;
+};
+
+$.fn.hasAttrValue = function(name, value) {
+    var vals = $(this).attr(name).split(' ');
+
+    return $.inArray(value, vals) > -1;
+};
+
+QUnit.test("noOpener with no rel attribute adds attribute", function(assert) {
+    var fixture = $("#qunit-fixture");
+    fixture.append("<p>This is a <a href='http://example.com/'>link</a>.</p>");
+
+    $("a", fixture).noOpener();
+    
+    assert.ok($("a", fixture).hasAttrValue("rel", "noopener"), "Link has rel='nofollow'");
+});
+
+QUnit.test("noOpener with other rel attribute adds noopener", function(assert) {
+    var fixture = $("#qunit-fixture");
+    fixture.append("<p>This is a <a rel='author' href='http://example.com/'>link</a>.</p>");
+
+    $("a", fixture).noOpener();
+
+    assert.ok($("a", fixture).hasAttrValue("rel", "noopener"), "Link has rel='noopener'");
+    assert.ok($("a", fixture).hasAttrValue("rel", "author"), "Link retains rel='author'");
+});
+
+QUnit.test("noOpener with existing rel=noopener preserves attribute", function(assert) {
+    var fixture = $("#qunit-fixture");
+    fixture.append("<p>This is a <a rel='noopener' href='http://example.com/'>link</a>.</p>");
+
+    $("a", fixture).noOpener();
+    assert.ok($("a", fixture).hasAttrValue("rel", "noopener"), "Link retains rel='noopener'");
+
+});
+
+
+QUnit.test("noFollow with existing rel attribute adds additional value", function(assert) {
+    var fixture = $("#qunit-fixture");
+    fixture.append("<p>This is a <a rel='author' href='http://example.com/'>link</a>.</p>");
+
+    $("a", fixture).noFollow();
+    assert.ok($("a", fixture).hasAttrValue("rel", "nofollow"), "Link has rel='noopener'");
+    assert.ok($("a", fixture).hasAttrValue("rel", "author"), "Link retains rel='author'");
+});
+
+QUnit.test("noFollow with existing rel=nofollow preserves attribute", function(assert) {
+    var fixture = $("#qunit-fixture");
+    fixture.append("<p>This is a <a rel='nofollow' href='http://example.com/'>link</a>.</p>");
+
+    $("a", fixture).noFollow();
+    assert.ok($("a", fixture).hasAttrValue("rel", "nofollow"), "Link retains rel='nofollow'");
+});

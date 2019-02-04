@@ -110,9 +110,46 @@
 
 	// Make link open in new window
 	$.fn.openNewWindow = function() {
-		this.attr('target', '_blank');
+		$(this).attr('target', '_blank');
 		return this;
 	};
+
+	// Add rel="noopener" attribute (prevents "Reverse tabnabbing")
+	// to each link
+	$.fn.noOpener = function() {
+		this.each(function() {
+			var rel = $(this).attr('rel');
+			if (rel === undefined) {
+				$(this).attr('rel', 'noopener');
+				return;
+			}
+
+			var vals = $(this).attr('rel').split(' ');
+			if ($.inArray('noopener', vals) == -1) {
+				vals.push('noopener');
+				$(this).attr('rel', vals.join(' '));
+			}
+		});
+	};
+
+	// Add rel="nofollow" attribute
+	$.fn.noFollow = function() {
+		this.each(function() {
+			var rel = $(this).attr('rel');
+			if (rel === undefined) {
+				$(this).attr('rel', 'nofollow');
+				return;
+			}
+
+			// Existing attribute found. Add value if not already present.
+			var vals = $(this).attr('rel').split(' ');
+			if ($.inArray('nofollow', vals) == -1) {
+				vals.push('nofollow');
+				$(this).attr('rel', vals.join(' '));
+			}
+		});
+	};
+	
 
     // Iterate a collection, and for links, determine the extension
     // of the URL. Then invoke a callback with a data object
