@@ -1,6 +1,6 @@
 {
   "name": "jquery.link-decorators",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A family of jQuery plugins with custom link selectors and link modifiers to include file metadata for consistent, accessible markup.",
   "scripts": {
     "test": "grunt test"
