@@ -116,12 +116,23 @@ jQuery("a:pathStartsWith(/download/)")
 	.decorate(function (info) { $(this).append("<span class='popup'>[" + info.EXT + ": " + info.formattedSize + "]</span>") });
 ```
 
+**.noFollow**
+
+Add `rel='nofollow'` to an `<a>` element. This instructs search engines to not let this link
+influence the ranking of the link's target.
+
+**.noOpener**
+
+Add `rel='noopener'` to an `<a>` element. This prevents "reverse tabnabbing" when the link refers
+to a malicious page.
+
 ### Common uses:
-Make off-site links in the main div open in a new window, and decorate with
-some popup text (the popup effect relies on appropriate CSS, not shown here).
+Make off-site links in the main div open in a new window, add a `rel=noOpener` attribute,
+and decorate with some popup text (the popup effect relies on appropriate CSS, not shown here).
 ```
 $("div.main a:external")
 .openNewWindow()
+.noOpener()
 .append("<span class='popup'>Opens in new window</span>")});
 ```
 
