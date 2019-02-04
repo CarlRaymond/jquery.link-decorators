@@ -5,6 +5,7 @@
   "scripts": {
     "test": "grunt test"
   },
+  "main": "dist/jquery.link-decorators.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/CarlRaymond/jquery.link-decorators.git"
