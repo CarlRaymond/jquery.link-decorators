@@ -5,7 +5,6 @@
 // The plugin is wrapped up in an IIFE. The argument factory is a function invoked
 // in one of three ways (depending on the environment) to register the plugin with jQuery.
 ; (function(factory) {
-
 	// Register as a module in a module environment, or as a plain jQuery
 	// plugin in a bare environment.
 	if (typeof module === "object" && typeof module.exports === "object") {
@@ -21,6 +20,39 @@
 	}
 } (function($) {
 
+	// Returns a formated file size as an HTML snippet.
+	var htmlFormattedSize = function(bytes, options) {
+		options = $.extend({
+			suffixes: ['byte', 'bytes', '<abbr title="kilobytes">KB</abbr>', '<abbr title="megabytes">MB</abbr>', '<abbr title="gigabytes">GB</abbr>'],
+			decimalPlaces: 2,
+			unknown: 'Size unknown'
+		}, options || {});
+		var b = parseInt(bytes, 10);
+		if (isNaN(b)) { return options.unknown; }
+		if (b === 0) { return '0 ' + options.suffixes[0]; }
+		if (b == 1) { return '1 ' + options.suffixes[0]; }
+		if (b < 1024) { return b.toFixed(0) + ' ' + options.suffixes[1]; }
+		if (b < 1048576) { return (b / 1024).toFixed(options.decimalPlaces) + ' ' + options.suffixes[2]; }
+		if (b < 1073741824) { return (b / 1048576).toFixed(options.decimalPlaces) + ' ' + options.suffixes[3]; }
+		else { return (b / 1073741824).toFixed(options.decimalPlaces) + ' ' + options.suffixes[4]; }
+	};
+
+	// Escape special characters in a regular expression specification
+	var regexEscapeExpr = new RegExp("[-/\\^$*+?.()|[\]{}]", "g");
+	var regexEscape = function(s) {
+		return s.replace(regexEscapeExpr, '\\$&');
+	};
+
+	// Element pathname should start with a / character, but on buggy browsers
+	// it does not.  This adds a leading / if it's missing.
+	var properPathname = function(pathname) {
+		if (pathname.charAt(0) === '/')
+			return pathname;
+
+		return '/' + pathname;
+	};
+	
+	
 	// Selector for off-site links
 	// Usage: $("div.main a:external")...
 	$.expr[':'].external = function(obj) {
@@ -45,7 +77,7 @@
 	$.expr[':'].pathStartsWith = function(elem, i, argument) {
 		var pattern = argument[3];
 		var re = new RegExp('^' + regexEscape(pattern), "i");
-		return ((elem.hostname === location.hostname) && (properPathname(elem.pathname).match(re) != null));
+		return ((elem.hostname === location.hostname) && (properPathname(elem.pathname).match(re) !== null));
 	};
 
 	// Selects on-site links whose path ends with a given string, like '.pdf'
@@ -54,7 +86,7 @@
 	$.expr[':'].pathEndsWith = function(elem, i, argument) {
 		var pattern = argument[3];
 		var re = new RegExp(regexEscape(pattern) + '$', "i");
-		return ((elem.hostname === location.hostname) && (properPathname(elem.pathname).match(re) != null));
+		return ((elem.hostname === location.hostname) && (properPathname(elem.pathname).match(re) !== null));
 	};
 
 	// Selects on-site links whose path contains a given string, like 'whazzup'.
@@ -63,7 +95,7 @@
 	$.expr[':'].pathContains = function(elem, i, argument) {
 		var pattern = argument[3];
 		var re = new RegExp(regexEscape(pattern), "i");
-		return ((elem.hostname === location.hostname) && (properPathname(elem.pathname).match(re) != null));
+		return ((elem.hostname === location.hostname) && (properPathname(elem.pathname).match(re) !== null));
 	};
 
 	// Regular expression to match a file extension (. followed by 1-6 characters).
@@ -100,7 +132,7 @@
 		// Apply the extension-to-class map to each element
 		this.each(function() {
 			var match = this.href.toLowerCase().match(extensionExpression);
-			if (match != null) {
+			if (match !== null) {
 				var ext = match[1];
 				$(this).addClass(map(ext));
 			}
@@ -159,7 +191,7 @@
           
         // Determine the extension
         var match = this.href.toLowerCase().match(extensionExpression);
-        if (match != null) {
+        if (match !== null) {
             var extension = match[1];
             var data = {
                 index: index,
@@ -190,7 +222,7 @@
 
 			// Get file extension from end of URL
 			var match = url.match(extensionExpression);
-			var extension = match == null ? '' : match[1];
+			var extension = match === null ? '' : match[1];
 
 			var linkInfo = {
 				ext: extension,
@@ -224,35 +256,4 @@
 		return this;
 	};
 
-	// Returns a formated file size as an HTML snippet.
-	var htmlFormattedSize = function(bytes, options) {
-		options = $.extend({
-			suffixes: ['byte', 'bytes', '<abbr title="kilobytes">KB</abbr>', '<abbr title="megabytes">MB</abbr>', '<abbr title="gigabytes">GB</abbr>'],
-			decimalPlaces: 2,
-			unknown: 'Size unknown'
-		}, options || {});
-		var b = parseInt(bytes, 10);
-		if (isNaN(b)) { return options.unknown; }
-		if (b === 0) { return '0 ' + options.suffixes[0]; }
-		if (b == 1) { return '1 ' + options.suffixes[0]; }
-		if (b < 1024) { return b.toFixed(0) + ' ' + options.suffixes[1]; }
-		if (b < 1048576) { return (b / 1024).toFixed(options.decimalPlaces) + ' ' + options.suffixes[2]; }
-		if (b < 1073741824) { return (b / 1048576).toFixed(options.decimalPlaces) + ' ' + options.suffixes[3]; }
-		else { return (b / 1073741824).toFixed(options.decimalPlaces) + ' ' + options.suffixes[4]; }
-	};
-
-	// Escape special characters in a regular expression specification
-	var regexEscapeExpr = new RegExp("[-/\\^$*+?.()|[\]{}]", "g");
-	var regexEscape = function(s) {
-		return s.replace(regexEscapeExpr, '\\$&');
-	};
-
-	// Element pathname should start with a / character, but on buggy browsers
-	// it does not.  This adds a leading / if it's missing.
-	var properPathname = function(pathname) {
-		if (pathname.charAt(0) === '/')
-			return pathname;
-
-		return '/' + pathname;
-	};
 }));
